@@ -1,0 +1,10 @@
+trigger Accountscenario2 on Account (before insert) {
+    if(Trigger.isBefore && Trigger.isInsert){
+        for (Account acc:Trigger.new){
+            if(acc.AnnualRevenue < 1000){
+                acc.addError('Annual Revenue cannot be less than 1000');
+            }
+        }
+    }
+
+}
