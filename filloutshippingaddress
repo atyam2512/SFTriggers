@@ -1,0 +1,17 @@
+trigger Accountscenario1 on Account (before insert) {
+    if(Trigger.isBefore && Trigger.isInsert){
+        for(Account acc:Trigger.new){
+            if(acc.ShippingCity==null)
+            acc.ShippingCity= acc.BillingCity;
+            if(acc.ShippingCountry==null)
+            acc.ShippingCountry=acc.BillingCountry;
+            if(acc.ShippingStreet==null)
+            acc.ShippingStreet=acc.BillingStreet;
+            if(acc.ShippingState==null)
+            acc.ShippingState=acc.BillingState;
+            if(acc.ShippingPostalCode==null)
+            acc.ShippingPostalCode=acc.BillingPostalCode;
+        }
+    }
+
+}
