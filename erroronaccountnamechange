@@ -1,0 +1,19 @@
+trigger Accountscenario4 on Account (before update) {
+    if(Trigger.isBefore && Trigger.isUpdate){
+        /*system.debug('New values');
+        system.debug(Trigger.new);
+        system.debug(Trigger.newMap);
+        system.debug('Old values');
+        system.debug(Trigger.old);
+        system.debug(Trigger.oldMap);*/
+        for (Account accnew: Trigger.new){
+           // system.debug('accnew values::');
+            //system.debug(accnew);
+            Account accold=Trigger.oldMap.get(accnew.Id);
+            if(accnew.Name != accold.Name){
+                accnew.addError('Account name cannot be modified');
+            }
+        }
+    }
+}
+                         
