@@ -1,0 +1,26 @@
+trigger Accountscenario5 on Account (after update) {
+    set<Id>accbillstreetchanged= new set<Id>();
+    if(Trigger.isAfter && Trigger.isUpdate){
+        for(Account accnew:Trigger.new){
+            Account accold=Trigger.oldMap.get(accnew.Id);
+            if(accnew.billingstreet!=accold.billingstreet){
+                accbillstreetchanged.add(accnew.Id);
+                
+            }
+        }
+        List<Account> accchanged=[select id,name,billingstreet,billingcity,billingstate,billingcountry ,(select id,name from contacts) from Account where id in:accbillstreetchanged];
+        List<Contact>contactstoupdate= new List<Contact>();
+        for(Account acc: accchanged){
+            List<Contact> conofacc=acc.contacts;
+            for(Contact con:conofacc){
+                con.MailingStreet=acc.BillingStreet;
+                con.MailingCity=acc.BillingCity;
+                con.MailingState=acc.BillingState;
+                con.MailingCountry=acc.BillingCountry;
+                contactstoupdate.add(con);
+                
+            }
+        }
+        update contactstoupdate;
+    }
+}
