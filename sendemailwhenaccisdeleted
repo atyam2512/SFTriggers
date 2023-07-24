@@ -1,0 +1,17 @@
+trigger Accountscenario7 on Account (after delete) {
+    if(Trigger.isAfter && Trigger.isDelete){
+      //  List<Messaging.SingleEmailMessage>emailobjs=new List<Messaging.SingleEmailMessage>();
+        for (Account acc:Trigger.old){
+            Messaging.SingleEmailMessage email=new Messaging.SingleEmailMessage();
+            String[] emailaddress=new String[]{};
+            emailaddress.add(UserInfo.getUserEmail());
+            email.toaddresses=emailaddress;
+            email.setSubject('Reg:Deletion of your Account');
+            email.setPlainTextBody('Your account has been deleted:'+acc.Name);
+         //   emailobjs.add(email);
+             Messaging.sendEmail(new Messaging.SingleEmailMessage[] { email });    
+        }
+       
+    }
+
+}
