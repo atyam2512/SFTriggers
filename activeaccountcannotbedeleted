@@ -1,0 +1,10 @@
+trigger Accountscenario6 on Account (before delete) {
+    if(Trigger.isBefore && Trigger.isDelete){
+        for(Account acc:Trigger.old){
+            if(acc.active__c=='Yes'){
+                acc.addError('Active account cannot be deleted');
+            }
+        }
+    }
+
+}
