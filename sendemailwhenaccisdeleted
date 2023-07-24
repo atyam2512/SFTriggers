@@ -11,6 +11,7 @@ trigger Accountscenario7 on Account (after delete) {
          //   emailobjs.add(email);
              Messaging.sendEmail(new Messaging.SingleEmailMessage[] { email });    
         }
+        //Messaging.sendEmail(emailobjs);
        
     }
 
