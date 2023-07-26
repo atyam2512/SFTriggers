@@ -1,0 +1,14 @@
+trigger Accountscenario8 on Account (after undelete) {
+    if(Trigger.isAfter && Trigger.isUndelete){
+        
+        for(Account acc: Trigger.new){
+            Messaging.SingleEmailMessage email=new Messaging.SingleEmailMessage();
+            String[] emailaddress=new string[]{};
+            emailaddress.add(UserInfo.getUserEmail());
+            email.toaddresses=emailaddress;
+            email.setSubject('Reg:Restoration of the account');
+            email.setPlainTextBody('You have restored the account'+acc.Id); 
+            Messaging.sendEmail(new Messaging.SingleEmailMessage[]{email});
+        }        
+    }
+}
