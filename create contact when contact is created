@@ -1,0 +1,22 @@
+trigger createnewcontact on Contact (after insert) {
+    if(Trigger.isAfter && Trigger.isInsert && contacttriggerhandler.istriggerran){
+        contacttriggerhandler.istriggerran=false;
+        contacttriggerhandler.createduplicatecontact(Trigger.new);
+    }
+
+}
+
+
+public class contacttriggerhandler {
+    public static boolean istriggerran=true;
+    public static void createduplicatecontact(List<Contact> conlist){
+        List<Contact>contoadd=new List<Contact>();
+        for(Contact con:conlist){
+            Contact newcons=new Contact();
+            newcons.lastName='Duplicate Contact123';
+            contoadd.add(newcons);           
+        }
+        insert contoadd;
+    }
+
+}
